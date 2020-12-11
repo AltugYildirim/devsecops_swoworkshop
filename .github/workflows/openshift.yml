@@ -102,10 +102,10 @@ jobs:
     - name: log in to openshift
       uses: redhat-actions/oc-login@v1
       with:
-        openshift_server_url: ${{ env.openshift_server }}
-        openshift_token: ${{ env.openshift_token }}
+        openshift_server_url: ${{ env.OPENSHIFT_SERVER }}
+        openshift_token: ${{ env.OPENSHIFT_TOKEN }}
         insecure_skip_tls_verify: true
-        namespace: ${{ env.openshift_namespace }}
+        namespace: ${{ env.OPENSHIFT_NAMESPACE }}
     # - name: set up oc cli and query to openshift
     #   uses: redhat-developer/openshift-actions@v2.1.0
     #   with:
