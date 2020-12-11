@@ -44,7 +44,7 @@ env:
   APP_PORT: 8080
 
 
-  OPENSHIFT_NAMESPACE: ""
+  OPENSHIFT_NAMESPACE: "reverse-word-stage"
 
 
   APP_NAME: ""
@@ -99,21 +99,21 @@ jobs:
     #     password: ${{ env.REGISTRY_PASSWORD }}
 
 
-    # - name: log in to openshift
-    #   uses: redhat-actions/oc-login@v1
-    #   with:
-    #     openshift_server_url: ${{ env.openshift_server }}
-    #     openshift_token: ${{ env.openshift_token }}
-    #     insecure_skip_tls_verify: true
-    #     namespace: ${{ env.openshift_namespace }}
-    - name: Set up oc CLI and query to OpenShift
-      uses: redhat-developer/openshift-actions@v2.1.0
+    - name: log in to openshift
+      uses: redhat-actions/oc-login@v1
       with:
-        version: '4.5'
-        openshift_server_url:  ${{ env.openshift_server }}
-        parameters: '{"apitoken": "${{ env.openshift_token }}", "acceptUntrustedCerts": "true" }' 
-        cmd: |
-          oc get projects
+        openshift_server_url: ${{ env.openshift_server }}
+        openshift_token: ${{ env.openshift_token }}
+        insecure_skip_tls_verify: true
+        namespace: ${{ env.openshift_namespace }}
+    # - name: set up oc cli and query to openshift
+    #   uses: redhat-developer/openshift-actions@v2.1.0
+    #   with:
+    #     version: '4.5'
+    #     openshift_server_url:  ${{ env.openshift_server }}
+    #     parameters: '{"apitoken": "${{ env.openshift_token }}", "acceptuntrustedcerts": "true" }' 
+    #     cmd: |
+    #       oc get projects
 
     # # This step should create a deployment, service, and route to run your app and expose it to the internet.
     # # Feel free to replace this with 'oc apply', 'helm install', or however you like to deploy your app.
