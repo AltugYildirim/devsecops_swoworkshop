@@ -63,6 +63,7 @@ on:
 
 jobs:
   openshift-ci:
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push'
     name: Build
     runs-on: ubuntu-20.04
 
