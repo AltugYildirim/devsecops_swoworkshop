@@ -33,25 +33,15 @@ name: OpenShift
 # ⬇️  Modify the fields marked with ⬇️ to fit your project, and create any secrets that are referenced.
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/encrypted-secrets
 env:
-  # ⬇️ EDIT with your registry and registry path.
-  TOKEN: ${{ secrets.TOKEN }}
+  TOKEN: ${{ secrets.TOKEN }}  
   REGISTRY: quay.io/altugyildirim
-  # ⬇️ EDIT with your registry username.
+  
   REGISTRY_USER: altugyildirim
   REGISTRY_PASSWORD: ${{ secrets.REGISTRY_PASSWORD }}
 
-  # ⬇️ EDIT to log into your OpenShift cluster and set up the context.
-  # See https://github.com/redhat-actions/oc-login#readme for how to retrieve these values.
   OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
   OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
-
-  # ⬇️ EDIT with the port your application should be accessible on.
-  APP_PORT: 8080
-
-  # ⬇️ EDIT if you wish to set the kube context's namespace after login. Leave blank to use the default namespace.
-  OPENSHIFT_NAMESPACE: ""
-
-  # If you wish to manually provide the APP_NAME and TAG, set them here, otherwise they will be auto-detected.
+  OPENSHIFT_NAMESPACE: default
   APP_NAME: reversewords
   TAG: workshop
 
