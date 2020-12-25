@@ -28,16 +28,24 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: download kondukto cli
+      run: |
+        curl -sSL https://cli.kondukto.io | sh
+
+    - name: SCA
+      run: |
+        ./kdt --host https://demo5.kondukto.io --token ${{ secrets.KONDUKTO }}  scan -p devsecops_swoworkshop -t nancy -b dev 
+
+    - name: SAST
+      run: |
+        ./kdt --host https://demo5.kondukto.io --token ${{ secrets.KONDUKTO }}  scan -p devsecops_swoworkshop -t gosec -b dev  
+
     - name: Unit Test
       run: |
         docker build -t reverseword_test:latest -f Dockerfile.test .
-        docker images
         docker run reverseword_test:latest
 
-    - name: Determine tag
-      if: env.TAG == ''
-      run: |
-        echo "TAG=${GITHUB_SHA::7}" | tee -a $GITHUB_ENV
+
 
     # https://github.com/redhat-actions/buildah-build#readme
     - name: Build from Dockerfile
@@ -50,6 +58,11 @@ jobs:
         # Otherwise, point this to your Dockerfile relative to the repository root.
         dockerfiles: |
           ./Dockerfile
+
+# Container Vulnerability check
+    - name: CS
+      run: |
+        ./kdt --host https://demo5.kondukto.io --token ${{ secrets.KONDUKTO }}  scan -p devsecops_swoworkshop -t trivy -b dev  
 
     # https://github.com/redhat-actions/push-to-registry#readme
     - name: Push to registry
@@ -88,6 +101,10 @@ jobs:
     - name: Helm
       run: |
         helm upgrade -f ./charts/values.yaml reverseword-stage ./charts --set environment=stage --set namespace=reverse-word-stage --set tag=${{ env.TAG}} -n helm-charts
+
+    - name: DAST
+      run: |
+        ./kdt --host https://demo5.kondukto.io --token ${{ secrets.KONDUKTO }}  scan -p devsecops_swoworkshop -t owaspzapheadless -b dev 
 
   openshift-cd-prod:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
