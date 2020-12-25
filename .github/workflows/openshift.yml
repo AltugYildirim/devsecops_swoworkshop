@@ -28,10 +28,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Determine app name
-      if: env.APP_NAME == ''
+    - name: Unit Test
       run: |
-        echo "APP_NAME=$(basename $PWD)" | tee -a $GITHUB_ENV
+        docker build -t reverseword_test:latest -f Dockerfile.test .
+        docker images
+        docker run reverseword_test:latest
 
     - name: Determine tag
       if: env.TAG == ''
