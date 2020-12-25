@@ -8,6 +8,6 @@ serviceType: ClusterIP
 servicePort: 8080
 
 #deployment controlls
-environment: stage
+environment: aliveli
 tag: latest
 namespace: stage
